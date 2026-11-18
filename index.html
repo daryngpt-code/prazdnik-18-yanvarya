@@ -181,7 +181,7 @@ footer{color:var(--muted);font-size:.9rem;text-align:center}
 
 <script>
 (() => {
-const BAKED_NAME = ''; // имя именинника: впишите сюда, чтобы его видели все гости
+const BAKED_NAME = 'Didar'; // имя именинника: впишите сюда, чтобы его видели все гости
 const TARGET = new Date(2027, 0, 18);
 const $ = id => document.getElementById(id);
 const rand = n => Math.random() * n;
@@ -200,7 +200,7 @@ function setName(n) {
   $('singName').textContent = n ? `с днём рожденья, ${n},` : 'с днём рожденья, наш друг,';
 }
 const nameInput = $('name');
-nameInput.value = store.get('bd-name') ?? BAKED_NAME;
+nameInput.value = store.get('bd-name') || BAKED_NAME;
 setName(nameInput.value);
 nameInput.addEventListener('input', () => { setName(nameInput.value); store.set('bd-name', nameInput.value); });
 
