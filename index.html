@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body>
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Праздник 18 января</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Golos+Text:wght@400;600&display=swap">
+<style>
+/* Layout: зимняя ночь, гирлянда-эквалайзер сверху, одна колонка; музыка и торт — парой, ниже окно с шариками. Один тёмный образ — намеренно. */
+:root{
+  color-scheme:dark;
+  --night:#1b1136; --night-2:#2a1c52; --line:#4a3a7a;
+  --snow:#fff7ee; --muted:#bfb1de;
+  --candy:#ff5d8f; --sun:#ffc93c; --mint:#3ddbb4; --sky:#6cc4ff;
+  --display:"Unbounded","Arial Black","Segoe UI",sans-serif;
+  --body:"Golos Text","Segoe UI",Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+body{
+  background:radial-gradient(120% 60% at 50% 0%,var(--night-2),var(--night) 70%) fixed,var(--night);
+  color:var(--snow); font:400 17px/1.55 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0 56px; overflow-x:hidden;
+}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.wrap{max-width:960px;margin-inline:auto;display:flex;flex-direction:column;gap:56px}
+h1,h2{font-family:var(--display);text-wrap:balance;margin:0}
+h2{font-size:1.25rem;font-weight:500}
+p{margin:0}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+
+/* Гирлянда */
+.garland{position:relative;height:74px;margin-inline:-16px}
+.garland svg{position:absolute;inset:0;width:100%;height:64px;overflow:visible}
+.garland path{fill:none;stroke:var(--line);stroke-width:2;vector-effect:non-scaling-stroke}
+.bulb{position:absolute;width:14px;height:20px;margin-left:-7px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;
+  background:var(--c);opacity:.45;transition:opacity .25s,box-shadow .25s,scale .25s;animation:twinkle 2.4s var(--d) infinite}
+.bulb.on{opacity:1;scale:1.35;box-shadow:0 0 18px 6px var(--c);transition-duration:.03s}
+.garland.playing .bulb{animation:none}
+@keyframes twinkle{50%{opacity:1;box-shadow:0 0 12px 3px var(--c)}}
+
+/* Герой */
+.hero{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.eyebrow{font-size:.85rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sun);font-weight:600}
+h1{font-size:clamp(2rem,7vw,4.4rem);font-weight:800;line-height:1.05}
+h1 em{font-style:normal;color:var(--candy)}
+.lead{max-width:58ch;color:var(--muted)}
+.count{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;width:100%;max-width:640px}
+.count div{display:flex;flex-direction:column;gap:2px;border-top:3px solid var(--c);padding-top:10px}
+.count b{font:800 clamp(1.8rem,9vw,4.2rem)/1 var(--display);font-variant-numeric:tabular-nums}
+.count span{font-size:.85rem;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.btn{border:0;border-radius:999px;padding:12px 22px;font-weight:600;cursor:pointer;background:var(--sun);color:var(--night);transition:translate .15s}
+.btn:hover{translate:0 -2px}
+.btn.ghost{background:transparent;color:var(--snow);box-shadow:inset 0 0 0 2px var(--line)}
+.who{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;color:var(--muted);font-size:.95rem}
+.who input{background:transparent;border:0;border-bottom:2px solid var(--line);padding:4px 2px;width:12em;max-width:100%;color:var(--snow)}
+
+/* Музыка и торт */
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:24px}
+.panel{background:color-mix(in srgb,var(--night-2) 70%,transparent);border:1px solid var(--line);border-radius:20px;padding:24px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.tracks{display:flex;flex-direction:column;gap:6px}
+.track{display:flex;justify-content:space-between;gap:12px;text-align:left;background:transparent;border:0;border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--muted)}
+.track:hover{color:var(--snow)}
+.track[aria-pressed="true"]{background:var(--night);color:var(--snow);box-shadow:inset 3px 0 0 var(--mint)}
+.track small{color:var(--muted);white-space:nowrap}
+.sing{display:flex;flex-direction:column;gap:2px;font-family:var(--display);font-size:.95rem;color:var(--line);min-height:6.4em}
+.sing span{transition:color .2s}
+.sing span.now{color:var(--sun)}
+.note{color:var(--muted);font-size:.95rem;min-height:6.4em}
+.vol{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;flex:1;min-width:140px}
+.vol input{flex:1;min-width:0;accent-color:var(--mint)}
+
+.cake{position:relative;width:240px;max-width:100%;height:215px;margin-inline:auto}
+.plate{position:absolute;left:0;right:0;bottom:4px;height:10px;border-radius:10px;background:var(--muted)}
+.tier{position:absolute;left:50%;translate:-50% 0;border-radius:14px 14px 6px 6px}
+.tier::before{content:"";position:absolute;inset:0 0 auto;height:18px;background:var(--snow);border-radius:14px 14px 0 0}
+.tier::after{content:"";position:absolute;top:17px;left:6px;right:6px;height:12px;background:radial-gradient(circle at 50% 0,var(--snow) 8px,transparent 9px) 0 0/24px 12px repeat-x}
+.t1{bottom:14px;width:210px;height:70px;background:var(--candy)}
+.t2{bottom:84px;width:150px;height:56px;background:var(--sky)}
+.candles{position:absolute;left:50%;translate:-50% 0;bottom:138px;display:flex;gap:4px}
+.candle{position:relative;width:24px;height:66px;background:transparent;border:0;padding:0;cursor:pointer}
+.candle i{position:absolute;left:7px;bottom:0;width:10px;height:38px;border-radius:3px;background:repeating-linear-gradient(135deg,var(--snow) 0 5px,var(--c) 5px 10px)}
+.candle u{position:absolute;left:5px;bottom:40px;width:14px;height:22px;border-radius:50% 50% 50% 50%/65% 65% 35% 35%;
+  background:radial-gradient(circle at 50% 70%,var(--snow),var(--sun) 45%,var(--candy));box-shadow:0 0 16px 4px var(--sun);
+  transform-origin:50% 100%;animation:flick .5s infinite alternate;transition:opacity .3s,scale .3s}
+.candle.out u{opacity:0;scale:.2;animation:none}
+@keyframes flick{to{transform:rotate(-5deg) scaleY(1.12)}}
+.center{text-align:center}
+
+/* Шарики */
+.sky-box{position:relative;height:340px;border-radius:20px;border:1px solid var(--line);overflow:hidden;
+  background:linear-gradient(var(--night),var(--night-2))}
+.balloon{position:absolute;bottom:-110px;left:var(--x);width:58px;height:72px;border:0;padding:0;cursor:pointer;
+  border-radius:50% 50% 50% 50%/45% 45% 55% 55%;background:radial-gradient(circle at 30% 28%,var(--snow) 0 6%,var(--c) 22%);
+  animation:rise var(--t) linear forwards}
+.balloon::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:44px;background:var(--line);translate:-50% 0}
+.balloon::before{content:"";position:absolute;left:50%;top:97%;translate:-50% 0;border:6px solid transparent;border-bottom-color:var(--c);border-top:0}
+@keyframes rise{to{transform:translate(var(--sway),-520px)}}
+.pop-line{font-family:var(--display);font-size:clamp(1rem,3.2vw,1.35rem);color:var(--sun);min-height:2.8em;text-wrap:balance}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px}
+.head span{color:var(--muted)}
+section{display:flex;flex-direction:column;gap:16px}
+footer{color:var(--muted);font-size:.9rem;text-align:center}
+
+@media (prefers-reduced-motion:reduce){
+  .bulb,.candle u{animation:none}
+  .balloon{animation:none;bottom:auto;top:var(--y)}
+}
+</style>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<div class="wrap">
+  <div class="garland" id="garland" aria-hidden="true"><svg viewBox="0 0 300 64" preserveAspectRatio="none"><path d="M0,0 Q50,80 100,0 Q150,80 200,0 Q250,80 300,0"/></svg></div>
+
+  <header class="hero">
+    <p class="eyebrow" id="eyebrow">Понедельник · 18 января 2027</p>
+    <h1 id="hello">С днём рождения!</h1>
+    <p class="lead" id="lead">До праздника осталось совсем немного. Включите музыку, задуйте свечи и ловите шарики с пожеланиями.</p>
+    <div class="count" id="count" role="timer" aria-label="Обратный отсчёт до 18 января 2027">
+      <div style="--c:var(--candy)"><b id="cd">0</b><span id="cdl">дней</span></div>
+      <div style="--c:var(--sun)"><b id="ch">00</b><span id="chl">часов</span></div>
+      <div style="--c:var(--mint)"><b id="cm">00</b><span id="cml">минут</span></div>
+      <div style="--c:var(--sky)"><b id="cs">00</b><span id="csl">секунд</span></div>
+    </div>
+    <div class="row">
+      <button class="btn" id="heroPlay" type="button">▶ Включить музыку</button>
+      <button class="btn ghost" id="salute" type="button">Запустить салют</button>
+    </div>
+    <label class="who" for="name">Кого поздравляем?
+      <input id="name" type="text" maxlength="24" placeholder="Впишите имя" autocomplete="off">
+    </label>
+  </header>
+
+  <div class="pair">
+    <section class="panel" aria-labelledby="h-music">
+      <h2 id="h-music">Музыка</h2>
+      <div class="tracks" id="tracks"></div>
+      <div class="sing" id="sing" aria-live="off">
+        <span>С днём рожденья тебя,</span>
+        <span>с днём рожденья тебя,</span>
+        <span id="singName">с днём рожденья, наш друг,</span>
+        <span>с днём рожденья тебя!</span>
+      </div>
+      <p class="note" id="note" hidden></p>
+      <div class="row">
+        <button class="btn" id="play" type="button">▶ Играть</button>
+        <button class="btn ghost" id="next" type="button">Следующая</button>
+        <label class="vol" for="vol">Громкость <input id="vol" type="range" min="0" max="100" value="70"></label>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="h-cake">
+      <h2 id="h-cake">Торт со свечами</h2>
+      <div class="cake">
+        <div class="candles" id="candles"></div>
+        <div class="tier t2"></div>
+        <div class="tier t1"></div>
+        <div class="plate"></div>
+      </div>
+      <p class="center" id="cakeMsg">Загадайте желание и задуйте все пять свечей — нажимайте на огоньки.</p>
+      <div class="row" style="justify-content:center"><button class="btn ghost" id="relight" type="button" hidden>Зажечь свечи заново</button></div>
+    </section>
+  </div>
+
+  <section aria-labelledby="h-bal">
+    <div class="head"><h2 id="h-bal">Шарики с пожеланиями</h2><span>Лопнуто: <b id="popped">0</b></span></div>
+    <p class="pop-line" id="popLine" aria-live="polite">В каждом шарике спрятано пожелание. Лопните любой.</p>
+    <div class="sky-box" id="sky"></div>
+  </section>
+
+  <footer>Сделано с любовью к 18 января 2027 года.</footer>
+</div>
+
+<script>
+(() => {
+const BAKED_NAME = ''; // имя именинника: впишите сюда, чтобы его видели все гости
+const TARGET = new Date(2027, 0, 18);
+const $ = id => document.getElementById(id);
+const rand = n => Math.random() * n;
+const css = getComputedStyle(document.documentElement);
+const COLORS = ['--candy', '--sun', '--mint', '--sky'].map(v => css.getPropertyValue(v).trim());
+const pick = () => COLORS[Math.floor(rand(COLORS.length))];
+const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const store = { get(k){ try { return localStorage.getItem(k) } catch { return null } }, set(k, v){ try { localStorage.setItem(k, v) } catch {} } };
+
+/* ---------- Имя ---------- */
+function setName(n) {
+  n = n.trim();
+  const h = $('hello'); h.textContent = '';
+  if (n) { h.append('С днём рождения, '); const em = document.createElement('em'); em.textContent = n; h.append(em, '!'); }
+  else h.textContent = 'С днём рождения!';
+  $('singName').textContent = n ? `с днём рожденья, ${n},` : 'с днём рожденья, наш друг,';
+}
+const nameInput = $('name');
+nameInput.value = store.get('bd-name') ?? BAKED_NAME;
+setName(nameInput.value);
+nameInput.addEventListener('input', () => { setName(nameInput.value); store.set('bd-name', nameInput.value); });
+
+/* ---------- Отсчёт ---------- */
+const plural = (n, a, b, c) => { const m = n % 100, k = n % 10; return m > 10 && m < 20 ? c : k === 1 ? a : k > 1 && k < 5 ? b : c; };
+let partyStarted = false;
+function countdown() {
+  const diff = TARGET - new Date();
+  if (diff <= 0) {
+    if (!partyStarted) {
+      partyStarted = true;
+      $('count').hidden = true;
+      const today = diff > -864e5;
+      $('eyebrow').textContent = today ? 'Сегодня · 18 января 2027' : '18 января 2027';
+      $('lead').textContent = today ? 'Тот самый день настал! Включайте музыку, задувайте свечи и принимайте поздравления.'
+        : 'Праздник состоялся, а хорошее настроение можно вернуть в любой момент: музыка, свечи и шарики на месте.';
+      if (today) setTimeout(salute, 600);
+    }
+    return;
+  }
+  const s = Math.floor(diff / 1000), d = Math.floor(s / 86400), h = Math.floor(s / 3600) % 24, m = Math.floor(s / 60) % 60, sec = s % 60;
+  const p2 = n => String(n).padStart(2, '0');
+  $('cd').textContent = d; $('ch').textContent = p2(h); $('cm').textContent = p2(m); $('cs').textContent = p2(sec);
+  $('cdl').textContent = plural(d, 'день', 'дня', 'дней'); $('chl').textContent = plural(h, 'час', 'часа', 'часов');
+  $('cml').textContent = plural(m, 'минута', 'минуты', 'минут'); $('csl').textContent = plural(sec, 'секунда', 'секунды', 'секунд');
+}
+countdown(); setInterval(countdown, 1000);
+
+/* ---------- Гирлянда ---------- */
+const garland = $('garland'), bulbs = [];
+const NB = 18;
+for (let i = 0; i < NB; i++) {
+  const x = (i + .5) / NB, s = (x * 3) % 1, b = document.createElement('div');
+  b.className = 'bulb';
+  b.style.cssText = `left:${x * 100}%;top:${4 * s * (1 - s) * 40}px;--c:${COLORS[i % 4]};--d:${(i * .37 % 2.4).toFixed(2)}s`;
+  garland.append(b); bulbs.push(b);
+}
+function flash(midi) {
+  const i = Math.max(0, Math.min(NB - 1, Math.round((midi - 62) / 24 * (NB - 1))));
+  const b = bulbs[i]; b.classList.add('on'); setTimeout(() => b.classList.remove('on'), 240);
+}
+
+/* ---------- Частицы: снег, конфетти, салют ---------- */
+const cv = $('fx'), g = cv.getContext('2d'); let W = 0, H = 0;
+function resize() { const r = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight; cv.width = W * r; cv.height = H * r; g.setTransform(r, 0, 0, r, 0, 0); }
+resize(); addEventListener('resize', resize);
+const P = [];
+const flake = init => ({ k: 0, x: rand(W), y: init ? rand(H) : -8, r: 1 + rand(2.2), vx: -.25 + rand(.5), vy: .3 + rand(.7), ph: rand(6.28) });
+if (!calm) for (let i = 0; i < 55; i++) P.push(flake(true));
+function confetti(x, y, n = 50, power = 7) {
+  if (calm) n = Math.min(n, 14);
+  for (let i = 0; i < n && P.length < 1400; i++) { const a = rand(6.28), v = power * (.3 + rand(1));
+    P.push({ k: 1, x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - 3, w: 6 + rand(6), h: 3 + rand(4), rot: rand(6.28), vr: -.2 + rand(.4), c: pick(), life: 1, dec: .006 + rand(.006) }); }
+}
+function firework(x, y) {
+  const c = pick(), n = calm ? 20 : 80;
+  for (let i = 0; i < n && P.length < 1400; i++) { const a = rand(6.28), v = 1.5 + rand(5.5);
+    P.push({ k: 2, x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, c, life: 1, dec: .011 + rand(.012) }); }
+  sfxBoom();
+}
+function salute() { for (let i = 0; i < 7; i++) setTimeout(() => firework(W * (.12 + rand(.76)), H * (.12 + rand(.4))), i * 260); }
+function frame() {
+  g.clearRect(0, 0, W, H);
+  for (let i = P.length - 1; i >= 0; i--) {
+    const p = P[i];
+    if (p.k === 0) {
+      p.ph += .02; p.x += p.vx + Math.sin(p.ph) * .3; p.y += p.vy;
+      if (p.y > H + 8) P[i] = flake(false);
+      g.globalAlpha = .7; g.fillStyle = COLORS_SNOW; g.beginPath(); g.arc(p.x, p.y, p.r, 0, 6.28); g.fill();
+    } else {
+      p.x += p.vx; p.y += p.vy; p.life -= p.dec;
+      if (p.life <= 0 || p.y > H + 20) { P.splice(i, 1); continue; }
+      g.globalAlpha = Math.min(1, p.life * 1.6); g.fillStyle = p.c;
+      if (p.k === 1) { p.vy += .16; p.vx *= .985; p.rot += p.vr;
+        g.save(); g.translate(p.x, p.y); g.rotate(p.rot); g.fillRect(-p.w / 2, -p.h / 2 * Math.cos(p.rot * 2), p.w, p.h * Math.cos(p.rot * 2)); g.restore(); }
+      else { p.vy += .05; p.vx *= .97; p.vy *= .97; g.beginPath(); g.arc(p.x, p.y, 2.2, 0, 6.28); g.fill(); }
+    }
+  }
+  g.globalAlpha = 1;
+  if (ctx) while (vis.length && vis[0].t <= ctx.currentTime) { const v = vis.shift(); if (v.m) flash(v.m); if (v.line !== undefined) singLine(v.line); }
+  requestAnimationFrame(frame);
+}
+const COLORS_SNOW = css.getPropertyValue('--snow').trim();
+
+/* ---------- Музыка (синтезатор Web Audio) ---------- */
+const M = 'M', m = 'm';
+const TRACKS = [
+  { name: 'С днём рождения', kind: 'классика', bpm: 100, meter: 3, len: 24, repeat: 2, chordStart: 1, lines: [0, 6, 12, 18],
+    melody: [[62,.75],[62,.25],[64,1],[62,1],[67,1],[66,2],[62,.75],[62,.25],[64,1],[62,1],[69,1],[67,2],[62,.75],[62,.25],[74,1],[71,1],[67,1],[66,1],[64,1],[72,.75],[72,.25],[71,1],[67,1],[69,1],[67,2]],
+    chords: [[43,M,3],[50,M,3],[50,M,3],[43,M,3],[43,M,3],[48,M,3],[43,M,2],[50,M,1],[43,M,3]] },
+  { name: 'Снежный вальс', kind: 'спокойная', bpm: 138, meter: 3, len: 48, repeat: 2, note: 'Лёгкий январский вальс: под него хорошо резать торт и говорить тосты.',
+    melody: [[76,1],[79,1],[76,1],[72,2],[76,1],[81,1],[79,1],[77,1],[74,2],[67,1],[76,1],[79,1],[84,1],[81,2],[76,1],[77,1],[76,1],[74,1],[79,3],
+             [81,1],[84,1],[81,1],[79,2],[83,1],[79,1],[76,1],[71,1],[72,2],[76,1],[77,1],[81,1],[77,1],[74,1],[79,1],[83,1],[84,3],[79,1],[76,1],[72,1]],
+    chords: [[48,M,3],[45,m,3],[41,M,3],[43,M,3],[48,M,3],[45,m,3],[50,m,3],[43,M,3],[41,M,3],[43,M,3],[40,m,3],[45,m,3],[41,M,3],[43,M,3],[48,M,3],[48,M,3]] },
+  { name: 'Танец конфетти', kind: 'весёлая', bpm: 128, meter: 4, len: 32, repeat: 2, drums: true, note: 'Быстрая мелодия с барабанами. Самое время танцевать и лопать шарики.',
+    melody: [[72,.5],[76,.5],[79,.5],[76,.5],[81,.5],[79,.5],[76,1],[74,.5],[79,.5],[83,.5],[79,.5],[74,.5],[79,.5],[71,1],
+             [69,.5],[72,.5],[76,.5],[81,.5],[79,.5],[76,.5],[72,1],[77,.5],[81,.5],[84,.5],[81,.5],[79,1],[77,1],
+             [76,.5],[79,.5],[84,1],[79,.5],[76,.5],[72,1],[74,.5],[79,.5],[83,1],[81,.5],[79,.5],[74,1],
+             [77,.5],[81,.5],[84,.5],[86,.5],[84,.5],[81,.5],[77,1],[79,.5],[81,.5],[83,.5],[86,.5],[84,2]],
+    chords: [[48,M,4],[43,M,4],[45,m,4],[41,M,4],[48,M,4],[43,M,4],[41,M,4],[43,M,2],[48,M,2]] },
+];
+let ctx = null, master, echo, bus = null, noiseBuf, events = [], idx = 0, loops = 0, loopStart = 0, timer = 0, advance = 0, cur = 0, playing = false, started = false;
+const vis = [];
+function initAudio() {
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+  master = ctx.createGain(); master.gain.value = $('vol').value / 100;
+  const comp = ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
+  echo = ctx.createDelay(); echo.delayTime.value = .27;
+  const fb = ctx.createGain(); fb.gain.value = .22; const wet = ctx.createGain(); wet.gain.value = .16;
+  echo.connect(fb); fb.connect(echo); echo.connect(wet); wet.connect(master);
+  noiseBuf = ctx.createBuffer(1, ctx.sampleRate * .3, ctx.sampleRate);
+  const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+}
+function tone(midi, t, dur, type, peak, dest) {
+  const o = ctx.createOscillator(), a = ctx.createGain();
+  o.type = type; o.frequency.value = 440 * 2 ** ((midi - 69) / 12);
+  a.gain.setValueAtTime(.0001, t); a.gain.exponentialRampToValueAtTime(peak, t + .015);
+  a.gain.exponentialRampToValueAtTime(peak * .5, t + Math.max(.03, Math.min(dur, .25)));
+  a.gain.exponentialRampToValueAtTime(.0001, t + dur + .12);
+  o.connect(a); a.connect(dest); o.start(t); o.stop(t + dur + .15);
+}
+function noise(t, dur, peak, hp, dest) {
+  const s = ctx.createBufferSource(), f = ctx.createBiquadFilter(), a = ctx.createGain();
+  s.buffer = noiseBuf; f.type = 'highpass'; f.frequency.value = hp;
+  a.gain.setValueAtTime(peak, t); a.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  s.connect(f); f.connect(a); a.connect(dest); s.start(t); s.stop(t + dur + .02);
+}
+function kick(t, dest) {
+  const o = ctx.createOscillator(), a = ctx.createGain();
+  o.frequency.setValueAtTime(150, t); o.frequency.exponentialRampToValueAtTime(45, t + .12);
+  a.gain.setValueAtTime(.55, t); a.gain.exponentialRampToValueAtTime(.0001, t + .18);
+  o.connect(a); a.connect(dest); o.start(t); o.stop(t + .2);
+}
+function build(T) {
+  const ev = []; let b = 0;
+  for (const [mi, d] of T.melody) { ev.push({ b, k: 'm', m: mi, d }); b += d; }
+  let cb = T.chordStart || 0;
+  for (const [root, q, beats] of T.chords) {
+    for (let i = 0; i < beats; i++) ev.push({ b: (cb + i) % T.len, k: i % (T.meter === 3 ? 3 : 2) === 0 ? 'b' : 'c', m: root, q });
+    cb += beats;
+  }
+  if (T.drums) for (let i = 0; i < T.len; i++) { if (i % 2 === 0) ev.push({ b: i, k: 'k' }); else ev.push({ b: i, k: 'h', p: .1 }); ev.push({ b: i + .5, k: 'h', p: .05 }); }
+  (T.lines || []).forEach((lb, n) => ev.push({ b: lb, k: 'l', n }));
+  return ev.sort((x, y) => x.b - y.b);
+}
+function playEv(e, t, sec) {
+  if (e.k === 'm') { tone(e.m, t, e.d * sec * .92, 'triangle', .2, bus); tone(e.m + 12, t, e.d * sec * .5, 'sine', .05, bus); vis.push({ t, m: e.m }); }
+  else if (e.k === 'b') tone(e.m, t, sec * .9, 'triangle', .2, bus);
+  else if (e.k === 'c') for (const iv of [12, e.q === M ? 16 : 15, 19]) tone(e.m + iv, t, sec * .45, 'sine', .055, bus);
+  else if (e.k === 'k') kick(t, bus);
+  else if (e.k === 'h') noise(t, .05, e.p, 7000, bus);
+  else if (e.k === 'l') vis.push({ t, line: e.n });
+}
+function tick() {
+  const T = TRACKS[cur], sec = 60 / T.bpm;
+  for (let guard = 0; guard < 300; guard++) {
+    const e = events[idx], t = loopStart + e.b * sec;
+    if (t > ctx.currentTime + .25) return;
+    playEv(e, t, sec);
+    if (++idx >= events.length) {
+      idx = 0; loopStart += T.len * sec; loops++;
+      if (loops >= T.repeat) {
+        clearInterval(timer);
+        advance = setTimeout(() => { if (playing) startTrack((cur + 1) % TRACKS.length); }, Math.max(0, (loopStart - ctx.currentTime) * 1000));
+        return;
+      }
+    }
+  }
+}
+function startTrack(i) {
+  cur = i; clearInterval(timer); clearTimeout(advance);
+  if (bus) { const old = bus; old.gain.setTargetAtTime(0, ctx.currentTime, .03); setTimeout(() => old.disconnect(), 500); }
+  bus = ctx.createGain(); bus.connect(master); bus.connect(echo);
+  events = build(TRACKS[i]); idx = 0; loops = 0; vis.length = 0; loopStart = ctx.currentTime + .12;
+  started = true; playing = true; timer = setInterval(tick, 50); tick(); ui();
+}
+function play(i) {
+  if (!ctx) initAudio();
+  if (ctx.state === 'suspended') ctx.resume();
+  if (i !== undefined || !started) startTrack(i ?? cur);
+  else { playing = true; clearInterval(timer); timer = setInterval(tick, 50); ui(); }
+}
+function pause() { playing = false; clearInterval(timer); ctx.suspend(); ui(); }
+function singLine(n) { [...$('sing').children].forEach((s, j) => s.classList.toggle('now', j === n)); }
+function ui() {
+  $('play').textContent = playing ? '❚❚ Пауза' : '▶ Играть';
+  $('heroPlay').textContent = playing ? '❚❚ Пауза' : '▶ Включить музыку';
+  garland.classList.toggle('playing', playing);
+  [...$('tracks').children].forEach((b, j) => b.setAttribute('aria-pressed', j === cur));
+  const T = TRACKS[cur]; $('sing').hidden = !T.lines; $('note').hidden = !!T.lines; $('note').textContent = T.note || '';
+  if (!playing || !T.lines) singLine(-1);
+}
+TRACKS.forEach((T, i) => {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'track';
+  const n = document.createElement('span'); n.textContent = T.name; const k = document.createElement('small'); k.textContent = T.kind;
+  b.append(n, k); b.addEventListener('click', () => play(i)); $('tracks').append(b);
+});
+const toggle = () => playing ? pause() : play();
+$('play').addEventListener('click', toggle); $('heroPlay').addEventListener('click', toggle);
+$('next').addEventListener('click', () => play((cur + 1) % TRACKS.length));
+$('vol').addEventListener('input', e => { if (master) master.gain.value = e.target.value / 100; });
+ui();
+
+const live = () => ctx && ctx.state === 'running';
+function sfxPop() { if (live()) noise(ctx.currentTime, .09, .35, 900, master); }
+function sfxBoom() { if (live()) { noise(ctx.currentTime, .28, .16, 300, master); } }
+function sfxChime() { if (live()) [84, 88, 91, 96].forEach((n, i) => tone(n, ctx.currentTime + i * .09, .3, 'sine', .12, master)); }
+
+/* ---------- Торт ---------- */
+const candles = $('candles');
+for (let i = 0; i < 5; i++) {
+  const c = document.createElement('button'); c.type = 'button'; c.className = 'candle'; c.style.setProperty('--c', COLORS[i % 4]);
+  c.setAttribute('aria-label', `Задуть свечу ${i + 1}`); c.append(document.createElement('i'), document.createElement('u'));
+  c.addEventListener('click', () => {
+    if (c.classList.contains('out')) return;
+    c.classList.add('out'); const r = c.getBoundingClientRect(); confetti(r.left + 12, r.top + 8, 12, 3);
+    if (!candles.querySelector('.candle:not(.out)')) {
+      $('cakeMsg').textContent = 'Желание загадано. Пусть оно сбудется в этом году!';
+      $('relight').hidden = false; sfxChime(); salute();
+    }
+  });
+  candles.append(c);
+}
+$('relight').addEventListener('click', () => {
+  candles.querySelectorAll('.candle').forEach(c => c.classList.remove('out'));
+  $('cakeMsg').textContent = 'Загадайте желание и задуйте все пять свечей — нажимайте на огоньки.'; $('relight').hidden = true;
+});
+
+/* ---------- Шарики ---------- */
+const WISHES = [
+  'Пусть каждое утро начинается с хорошей новости.',
+  'Смеха столько, чтобы болели щёки.',
+  'Друзей, с которыми тепло даже в январе.',
+  'Сил на всё задуманное и времени на отдых.',
+  'Пусть мечты сбываются быстрее, чем тает снег.',
+  'Здоровья крепкого, как зимний мороз.',
+  'Путешествий, о которых захочется рассказывать.',
+  'Любви, заботы и самых вкусных тортов.',
+  'Удачи во всём, за что возьмётесь.',
+  'Пусть этот год станет самым ярким.',
+  'Больше поводов танцевать без причины.',
+  'Чтобы дома всегда ждали и радовались.',
+];
+const sky = $('sky'); let popped = 0, wi = Math.floor(rand(WISHES.length));
+function balloon() {
+  if (sky.children.length >= (calm ? 6 : 9) || document.hidden) return;
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'balloon'; b.setAttribute('aria-label', 'Лопнуть шарик');
+  b.style.cssText = `--x:${4 + rand(84)}%;--y:${30 + rand(190)}px;--c:${pick()};--t:${8 + rand(6)}s;--sway:${-40 + rand(80)}px`;
+  b.addEventListener('animationend', () => b.remove());
+  b.addEventListener('click', () => {
+    const r = b.getBoundingClientRect(); confetti(r.left + r.width / 2, r.top + r.height / 2, 36, 6); sfxPop(); b.remove();
+    $('popped').textContent = ++popped; $('popLine').textContent = WISHES[wi++ % WISHES.length];
+  });
+  sky.append(b);
+}
+for (let i = 0; i < 4; i++) setTimeout(balloon, i * 500);
+setInterval(balloon, 1300);
+
+$('salute').addEventListener('click', salute);
+requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
